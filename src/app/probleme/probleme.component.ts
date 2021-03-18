@@ -7,14 +7,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./probleme.component.css']
 })
 export class ProblemeComponent implements OnInit {
-  problemForm: FormGroup;
+  problemeForm: FormGroup;
 
   constructor(private fb:FormBuilder) { }
 
   ngOnInit(): void {
-    this.problemForm=this.fb.group({
+    this.problemeForm=this.fb.group({
         prenom:['Votre prénom ici (obligatoire)',[Validators.minLength(3),Validators.required]]
     });
+
+
   }
+
+  save():void{}
 
 }
