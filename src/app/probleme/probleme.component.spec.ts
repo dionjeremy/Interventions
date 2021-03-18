@@ -65,4 +65,19 @@ describe('ProblemeComponent', () => {
     expect(errors['minLength']).toBeFalsy();
   });
 
+  
+  it('#4 Zone prénom invalide avec aucune valeur ',()=>{
+    let zone=component.problemForm.controls['prenom'];
+    zone.setValue('');
+    expect(zone.valid).toBeFalsy();
+  });
+
+  it('#4 Zone prénom invalide avec aucune valeur',()=>{
+    let errors={};
+    let zone=component.problemForm.controls['prenom'];
+    zone.setValue('a'.repeat(200));
+    errors=zone.errors||{};
+    expect(errors['required']).toBeFalsy();
+  });
+
 });
