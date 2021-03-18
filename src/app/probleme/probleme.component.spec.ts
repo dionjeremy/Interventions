@@ -23,16 +23,32 @@ describe('ProblemeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('champ nom doit comporter au moins 2 caractères',()=>{
-    let zone=component.problemForm.controls['nom'];
+  it('#1 zone Prénom invalide avec 2 caractères',()=>{
+    let zone=component.problemForm.controls['prenom'];
     zone.setValue('a'.repeat(2));
     expect(zone.valid).toBeFalsy();
   });
-  it('champ nom doit comporter au moins 2 caractères',()=>{
+
+  it('#1 zone Prénom invalide avec 2 caractères',()=>{
     let errors={};
-    let zone=component.problemForm.controls['nom'];
+    let zone=component.problemForm.controls['prenom'];
     zone.setValue('a'.repeat(2));
     errors=zone.errors||{};
     expect(errors['minLength']).toBeFalsy();
   });
+
+  it('#2 Zone prénom valide avec 3 caractères',()=>{
+    let zone=component.problemForm.controls['prenom'];
+    zone.setValue('a'.repeat(3));
+    expect(zone.valid).toBeTruthy();
+  });
+
+  it('#2 Zone prénom valide avec 3 caractères',()=>{
+    let errors={};
+    let zone=component.problemForm.controls['prenom'];
+    zone.setValue('a'.repeat(3));
+    errors=zone.errors||{};
+    expect(errors['minLength']).toBeFalsy();
+  });
+
 });
