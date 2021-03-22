@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ZoneValidator } from '../shared/longueur-minimum/longueur-minimum.component';
 
 @Component({
   selector: 'inter-probleme',
@@ -13,7 +14,7 @@ export class ProblemeComponent implements OnInit {
 
   ngOnInit(): void {
     this.problemeForm=this.fb.group({
-        prenom:['Votre prénom ici (obligatoire)',[Validators.minLength(3),Validators.required]]
+        prenom:['Votre prénom ici (obligatoire)',[Validators.required,ZoneValidator.longueurMinimum(3)]]
     });
 
 
