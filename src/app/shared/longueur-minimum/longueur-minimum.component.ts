@@ -16,4 +16,20 @@ export class ZoneValidator{
 
         
     }
+
+    static longueurMaximum(longueur :number ):ValidatorFn {
+       
+       
+        return(valeurControle:AbstractControl):{[key:string]:boolean}|null=>{
+            if(valeurControle.value.trim().length>longueur){
+                return{'nbreCaractereTropGrand':true};
+            }
+            if(valeurControle==null){
+                return{'nbreCaractereTropGrand':true};
+            }
+            return null;
+        };
+
+        
+    }
 }
