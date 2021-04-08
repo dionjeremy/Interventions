@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ProblemeData } from './probleme/Probleme-data';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { TypeproblemeService } from './probleme/typeprobleme.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
     HttpClientInMemoryWebApiModule.forRoot(ProblemeData, { delay: 1000 })
     
   ],
-  providers: [],
+  providers: [TypeproblemeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
