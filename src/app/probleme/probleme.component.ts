@@ -61,26 +61,19 @@ export class ProblemeComponent implements OnInit {
       telephoneControl.disable();
   
       if (typeNotification === 'courriel') {   
-              courrielControl.setValidators([Validators.required]);      
+              courrielControl.setValidators([Validators.required,Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]);      
               courrielControl.enable();  
-              courrielConfirmationControl.setValidators([Validators.required]);              
+              courrielConfirmationControl.setValidators([Validators.required,Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]);              
               courrielConfirmationControl.enable();  
-              courrielGroup.setValidators([emailMatcherValidator.courrielDifferents]);
+              courrielGroup.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents()])]);
                                  
-        }else if(typeNotification==='telephone'){
-          telephoneControl.setValidators([Validators.required]);              
+      }else if(typeNotification==='telephone'){
+          telephoneControl.setValidators([Validators.compose([Validators.required,Validators.pattern('[0-9]+'),Validators.minLength(10),Validators.maxLength(10)])]);              
           telephoneControl.enable(); 
-        }
+        
 
-        else
-        {
-          if(typeNotification === 'nePasNotifier')
-          {
-            courrielControl.disable(); 
-            courrielConfirmationControl.disable();  
-            telephoneControl.disable();  
-          }
-        }
+      }
+        
       courrielControl.updateValueAndValidity();   
       courrielConfirmationControl.updateValueAndValidity();   
       telephoneControl.updateValueAndValidity();     
@@ -91,3 +84,6 @@ export class ProblemeComponent implements OnInit {
   save():void{}
 
 }
+
+
+
