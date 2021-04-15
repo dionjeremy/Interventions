@@ -19,9 +19,10 @@ export class ProblemeComponent implements OnInit {
 
   ngOnInit(): void {
     this.problemeForm=this.fb.group({
-        prenom:['Votre prénom ici (obligatoire)',[Validators.required,ZoneValidator.longueurMinimum(3)]],
-        nom:['Votre nom ici (obligatoire)',[Validators.required,ZoneValidator.longueurMaximum(50)]],
+        prenom:['',[Validators.required,ZoneValidator.longueurMinimum(3)]],
+        nom:['',[Validators.required,ZoneValidator.longueurMaximum(50)]],
         typeProbleme:['',Validators.required],
+        notification:['pasnotification'],
         //le groupe pour le courriel
         courrielGroup: this.fb.group({
           courriel: [{value:'', disabled:true}],
@@ -38,6 +39,11 @@ export class ProblemeComponent implements OnInit {
     this.TypeProbleme.obtenirProblemes()
     .subscribe(cat => this.typesProblemes = cat,
                error => this.errorMessage = <any>error);  
+    
+    
+    this.problemeForm.get('notification').valueChanges
+    .subscribe(value=> this.appliquerNotifications(value));
+
   }
 
     
