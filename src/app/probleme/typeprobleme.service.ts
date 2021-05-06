@@ -9,7 +9,8 @@ import { catchError, tap } from 'rxjs/operators';
 })
 export class TypeproblemeService {
 
-  private baseUrl = 'api/typesprobleme';
+private baseUrl = 'https://localhost:5001/Intervention';
+
   constructor(private http:HttpClient) {}
 
     obtenirProblemes():Observable<ITypeProbleme[]> {
@@ -34,7 +35,7 @@ export class TypeproblemeService {
       console.error(errorMessage);
       return throwError(errorMessage);
     }
-
+    
 
 
   

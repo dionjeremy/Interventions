@@ -5,12 +5,13 @@ export class ZoneValidator{
        
        
         return(valeurControle:AbstractControl):{[key:string]:boolean}|null=>{
+            if(valeurControle.value==null){
+                return{'nbreCaractereInsufisant':true};
+            }
             if(valeurControle.value.trim().length<longueur){
                 return{'nbreCaractereInsufisant':true};
             }
-            if(valeurControle==null){
-                return{'nbreCaractereInsufisant':true};
-            }
+        
             return null;
         };
 
@@ -21,12 +22,13 @@ export class ZoneValidator{
        
        
         return(valeurControle:AbstractControl):{[key:string]:boolean}|null=>{
+            if(valeurControle.value==null){
+                return{'nbreCaractereTropGrand':true};
+            }
             if(valeurControle.value.trim().length>longueur){
                 return{'nbreCaractereTropGrand':true};
             }
-            if(valeurControle==null){
-                return{'nbreCaractereTropGrand':true};
-            }
+            
             return null;
         };
 

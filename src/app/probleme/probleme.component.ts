@@ -3,7 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ZoneValidator } from '../shared/longueur-minimum/longueur-minimum.component';
 import { ITypeProbleme } from './typeprobleme';
 import { TypeproblemeService } from './typeprobleme.service';
+import { Router } from '@angular/router';
+import {ProblemeService} from './probleme.service';
 import { emailMatcherValidator} from '../shared/email-matcher/email-matcher.component';
+import { IProbleme } from './probleme';
 
 
 @Component({
@@ -15,13 +18,17 @@ export class ProblemeComponent implements OnInit {
   problemeForm: FormGroup;
   typesProblemes: ITypeProbleme[];
   errorMessage:string;
-  constructor(private fb:FormBuilder,private TypeProbleme:TypeproblemeService) { }
+  
+  probleme:IProbleme;
+  
+  
+  constructor(private fb: FormBuilder, private typeproblemeService: TypeproblemeService, private problemeService: ProblemeService, private route : Router) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.problemeForm=this.fb.group({
-        prenom:['',[Validators.required,ZoneValidator.longueurMinimum(3)]],
+        prenom:['',[Validators.required,ZoneValidator.longueurMinimum(3),ZoneValidator.longueurMaximum(50)]],
         nom:['',[Validators.required,ZoneValidator.longueurMaximum(50)]],
-        typeProbleme:['',Validators.required],
+        typeProbleme:[Validators.required],
         notification:['pasnotification'],
         //le groupe pour le courriel
         courrielGroup: this.fb.group({
@@ -32,14 +39,14 @@ export class ProblemeComponent implements OnInit {
 
         telephone: [{value: '', disabled: true}],
         descriptionProbleme: ['', [Validators.required, Validators.minLength(5)]],
-        noUnite: '',
+        noUnite: [''],
         dateProbleme: {value: Date(), disabled: true}
 
         
 
   }),
 
-    this.TypeProbleme.obtenirProblemes()
+    this.typeproblemeService.obtenirProblemes()
     .subscribe(cat => this.typesProblemes = cat,
                error => this.errorMessage = <any>error);  
     
@@ -48,6 +55,30 @@ export class ProblemeComponent implements OnInit {
     .subscribe(value=> this.appliquerNotifications(value));
 
   }
+
+    save(): void {
+      if (this.problemeForm.dirty && this.problemeForm.valid) {
+          // Copy the form values over the problem object values
+          this.probleme = this.problemeForm.value;
+          this.probleme.id = 0;
+          this.probleme.courriel = this.problemeForm.get('courrielGroup.courriel').value;
+          //this.probleme.dateProbleme = new Date();
+          this.problemeService.saveProbleme(this.probleme)
+              .subscribe( // on s'abonne car on a un retour du serveur à un moment donné avec la callback fonction
+                  () => this.onSaveComplete(),  // Fonction callback
+                  (error: any) => this.errorMessage = <any>error
+              );
+      } else if (!this.problemeForm.dirty) {
+          this.onSaveComplete();
+      }
+    }
+    
+    onSaveComplete(): void { 
+      // Reset the form to clear the flags
+      this.problemeForm.reset();  // Pour remettre Dirty à false.  Autrement le Route Guard va dire que le formulaire n'est pas sauvegardé
+      this.route.navigate(['/accueil']);
+    }
+    
 
     
 
@@ -90,7 +121,7 @@ export class ProblemeComponent implements OnInit {
     }
 
 
-  save():void{}
+  
 
 }
 
